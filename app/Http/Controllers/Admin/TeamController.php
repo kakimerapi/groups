@@ -19,7 +19,11 @@ class TeamController extends Controller
         abort_if(Gate::denies('team_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Team::with(['owner'])->select(sprintf('%s.*', (new Team())->table));
+            if(auth()->user()->is_admin) {
+                $query = Team::with(['owner'])->select(sprintf('%s.*', (new Team())->table));
+            } else {
+                $query = Team::with(['owner'])->where('owner_id', '>', 1)->select(sprintf('%s.*', (new Team())->table));
+            }
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');

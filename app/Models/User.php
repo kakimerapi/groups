@@ -13,12 +13,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use App\Traits\MultiTenantModelTrait;
 
 class User extends Authenticatable
 {
     use SoftDeletes;
     use Notifiable;
     use HasFactory;
+    use MultiTenantModelTrait;
 
     public $table = 'users';
 
@@ -131,5 +133,10 @@ class User extends Authenticatable
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function getIsTeamAdminAttribute()
+    {
+        return $this->is_admin || $this->team_admin;
     }
 }

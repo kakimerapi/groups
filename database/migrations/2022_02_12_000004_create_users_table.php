@@ -14,11 +14,11 @@ class CreateUsersTable extends Migration
             $table->string('email')->nullable()->unique();
             $table->datetime('email_verified_at')->nullable();
             $table->string('password')->nullable();
-            $table->boolean('verified')->default(0)->nullable();
+            $table->boolean('verified')->default(1)->nullable();
             $table->datetime('verified_at')->nullable();
             $table->string('verification_token')->nullable();
             $table->string('remember_token')->nullable();
-            $table->boolean('team_admin')->default(0)->nullable();
+            $table->boolean('team_admin')->default(1)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
